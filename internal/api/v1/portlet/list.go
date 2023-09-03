@@ -13,5 +13,5 @@ func List(c *gin.Context) {
 		response.Error(c, errno.ErrInternalServer.WithDetails(err.Error()))
 		return
 	}
-	response.Success(c, list)
+	response.Success(c, &list)
 }

@@ -25,5 +25,5 @@ func Get(c *gin.Context) {
 		response.Error(c, errno.ErrInternalServer.WithDetails(err.Error()))
 		return
 	}
-	response.Success(c, p)
+	response.Success(c, &p)
 }

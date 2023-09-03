@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"tlc.platform/web-service/config"
 	"tlc.platform/web-service/internal/api/v1/portlet"
+	"tlc.platform/web-service/internal/api/v1/role"
 	"tlc.platform/web-service/internal/service"
 	"tlc.platform/web-service/pkg/middleware"
 	"tlc.platform/web-service/pkg/response"
@@ -38,6 +39,12 @@ func NewGinRouter() error {
 		v1.POST("/portlet", portlet.Add)
 		v1.PUT("/portlet/:id", portlet.Update)
 		v1.DELETE("/portlet/:id", portlet.Del)
+
+		// role_portlet 接口
+		v1.GET("/role/:roleId/portlets", role.PortletList)
+		v1.POST("/role/:roleId/portlets", role.PortletsAdd)
+		v1.PUT("/role/:roleId/portlets", role.PortletsUpdate)
+		v1.DELETE("/role/:roleId/portlets", role.PortletsDel)
 	}
 
 	// 启动接口服务

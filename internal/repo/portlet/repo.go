@@ -10,8 +10,9 @@ import (
 type Repository interface {
 	GetPortlets(ctx context.Context) ([]*model.Portlet, error)
 	GetPortlet(ctx context.Context, id string) (*model.Portlet, error)
+	GetPortletsByIds(ctx context.Context, ids *[]string) ([]*model.Portlet, error)
 	GetPortletByPortletId(ctx context.Context, portletId string) (*model.Portlet, error)
-	CreatePortlet(ctx context.Context, portlet *model.Portlet) (id string, err error)
+	CreatePortlet(ctx context.Context, portlet *model.Portlet) (string, error)
 	UpdatePortlet(ctx context.Context, portlet *model.Portlet) error
 	DeletePortlet(ctx context.Context, id string) error
 	PortletIsExist(ctx context.Context, portlet *model.Portlet) (bool, error)

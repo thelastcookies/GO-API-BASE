@@ -11,12 +11,12 @@ import (
 )
 
 func Update(c *gin.Context) {
-	var p model.Portlet
+	var p *model.Portlet
 	if err := c.BindJSON(&p); err != nil {
 		response.Error(c, errno.ErrInvalidParam)
 		return
 	}
-	err := service.Svc.PortletS().UpdatePortlet(c.Request.Context(), &p)
+	err := service.Svc.PortletS().UpdatePortlet(c.Request.Context(), p)
 	if err != nil {
 		if errors.Is(err, ecode.ErrPortletParams) {
 			response.Error(c, ecode.ErrPortletParams)

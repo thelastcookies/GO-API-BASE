@@ -5,20 +5,23 @@ import (
 	"tlc.platform/web-service/internal/repo/portlet"
 )
 
-var Svc Service
+var Svc *service
 
 type Service interface {
 	PortletS() *portletService
+	//RolePortletS() *roleService
 }
 
 type service struct {
-	portletRepo portlet.Repository
+	portletRepo    portlet.Repository
+	RolePortletSvc *roleService
 }
 
 func New() *service {
 	portletRepo := portlet.New(model.GDB)
 	return &service{
-		portletRepo: portletRepo,
+		portletRepo:    portletRepo,
+		RolePortletSvc: NewRoleSvc(),
 	}
 }
 

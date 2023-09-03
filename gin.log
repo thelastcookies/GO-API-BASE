@@ -7,3 +7,21 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on 0.0.0.0:8192
+[GIN] 2023/09/04 - 01:10:25 | 200 |    68.52575ms |             ::1 | DELETE   "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:10:31 | 500 |   43.271875ms |             ::1 | POST     "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:10:46 | 200 |   64.409625ms |             ::1 | POST     "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:03 | 200 |  986.418958ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:07 | 200 |  604.329209ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:10 | 200 |  841.840417ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:11 | 200 |  728.471625ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:35 | 200 |  167.050292ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:39 | 200 |    296.3075ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:55 | 200 |  324.967375ms |             ::1 | PUT      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:11:59 | 200 |  260.760875ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:37:12 | 200 |  151.774417ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:37:13 | 200 |  148.585958ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:37:13 | 200 |  143.476125ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:37:14 | 200 |     146.135ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"
+[GIN] 2023/09/04 - 01:37:17 | 200 |    15.64625ms |             ::1 | GET      "/v1/portlets"
+[GIN] 2023/09/04 - 01:37:20 | 200 |   17.584708ms |             ::1 | GET      "/v1/portlets"
+[GIN] 2023/09/04 - 01:37:23 | 200 |  145.776083ms |             ::1 | GET      "/v1/role/1180486275199668224/portlets"

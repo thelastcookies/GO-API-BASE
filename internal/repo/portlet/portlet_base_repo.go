@@ -26,6 +26,14 @@ func (r *repository) GetPortlet(ctx context.Context, id string) (*model.Portlet,
 	return p, nil
 }
 
+func (r *repository) GetPortletsByIds(ctx context.Context, ids *[]string) ([]*model.Portlet, error) {
+	pList := make([]*model.Portlet, 0)
+	if err := r.orm.Where(ids).Find(&pList).Error; err != nil {
+		return nil, errors.Wrap(err, "[repo.portlet_base] db query err")
+	}
+	return pList, nil
+}
+
 func (r *repository) GetPortletByPortletId(ctx context.Context, portletId string) (*model.Portlet, error) {
 	p := model.Portlet{PortletId: portletId}
 	if err := r.orm.Where(&p).First(&p).Error; err != nil {

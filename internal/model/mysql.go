@@ -48,5 +48,5 @@ func InitMySQL() {
 	if pingErr != nil {
 		log.Fatal(pingErr)
 	}
-	fmt.Println("MySQL connected successfully.")
+	fmt.Println("Database connected successfully.")
 }
