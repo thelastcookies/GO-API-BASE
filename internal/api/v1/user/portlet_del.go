@@ -1,26 +1,21 @@
-package portlet
+package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 	"tlc.platform/web-service/internal/ecode"
 	"tlc.platform/web-service/internal/service"
 	"tlc.platform/web-service/pkg/errno"
 	"tlc.platform/web-service/pkg/response"
 )
 
-func Del(c *gin.Context) {
-	id := c.Param("id")
-	if id == "" {
-		response.Error(c, errno.ErrInvalidParam)
+func PortletsDel(c *gin.Context) {
+	userId := c.Param("userId")
+	if userId == "" {
+		response.Error(c, ecode.ErrInvalidUserId)
 		return
 	}
-	err := service.Svc.PortletSvc.DeletePortlet(c.Request.Context(), id)
+	err := service.Svc.UserPortletSvc.DeleteUserPortletsByUserId(c, userId)
 	if err != nil {
-		if errors.Is(err, ecode.ErrPortletNotFound) {
-			response.Error(c, ecode.ErrPortletNotFound)
-			return
-		}
 		response.Error(c, errno.ErrInternalServer.WithDetails(err.Error()))
 		return
 	}

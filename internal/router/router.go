@@ -6,6 +6,7 @@ import (
 	"tlc.platform/web-service/config"
 	"tlc.platform/web-service/internal/api/v1/portlet"
 	"tlc.platform/web-service/internal/api/v1/role"
+	"tlc.platform/web-service/internal/api/v1/user"
 	"tlc.platform/web-service/internal/service"
 	"tlc.platform/web-service/pkg/middleware"
 	"tlc.platform/web-service/pkg/response"
@@ -37,7 +38,7 @@ func NewGinRouter() error {
 		v1.GET("/portlets", portlet.List)
 		v1.GET("/portlet/:id", portlet.Get)
 		v1.POST("/portlet", portlet.Add)
-		v1.PUT("/portlet/:id", portlet.Update)
+		v1.PUT("/portlet", portlet.Update)
 		v1.DELETE("/portlet/:id", portlet.Del)
 
 		// role_portlet 接口
@@ -45,6 +46,12 @@ func NewGinRouter() error {
 		v1.POST("/role/:roleId/portlets", role.PortletsAdd)
 		v1.PUT("/role/:roleId/portlets", role.PortletsUpdate)
 		v1.DELETE("/role/:roleId/portlets", role.PortletsDel)
+
+		// user_portlet 接口
+		v1.GET("/user/:userId/portlets", user.PortletList)
+		v1.POST("/user/:userId/portlets", user.PortletsAdd)
+		v1.PUT("/user/:userId/portlets", user.PortletsUpdate)
+		v1.DELETE("/user/:userId/portlets", user.PortletsDel)
 	}
 
 	// 启动接口服务

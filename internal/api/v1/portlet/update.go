@@ -16,7 +16,7 @@ func Update(c *gin.Context) {
 		response.Error(c, errno.ErrInvalidParam)
 		return
 	}
-	err := service.Svc.PortletS().UpdatePortlet(c.Request.Context(), p)
+	err := service.Svc.PortletSvc.UpdatePortlet(c.Request.Context(), p)
 	if err != nil {
 		if errors.Is(err, ecode.ErrPortletParams) {
 			response.Error(c, ecode.ErrPortletParams)

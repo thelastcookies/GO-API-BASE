@@ -8,7 +8,7 @@ import (
 )
 
 func List(c *gin.Context) {
-	list, err := service.Svc.PortletS().ListPortlet(c.Request.Context())
+	list, err := service.Svc.PortletSvc.ListPortlet(c.Request.Context())
 	if err != nil {
 		response.Error(c, errno.ErrInternalServer.WithDetails(err.Error()))
 		return

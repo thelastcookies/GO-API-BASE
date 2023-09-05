@@ -9,7 +9,7 @@ import (
 	"tlc.platform/web-service/pkg/snowflake"
 )
 
-type PortletService interface {
+type PortletServiceFunc interface {
 	ListPortlet(ctx context.Context) ([]*model.Portlet, error)
 	GetPortlet(ctx context.Context, id string) (*model.Portlet, error)
 	GetPortletsByUserId(ctx context.Context, userId string) ([]*model.Portlet, error)
@@ -20,23 +20,30 @@ type PortletService interface {
 	DeletePortlet(ctx context.Context, id string) error
 }
 
-type portletService struct {
+type PortletService struct {
 	repo portlet.Repository
 }
 
-func NewPortletSvc(svc *service) *portletService {
-	return &portletService{repo: svc.portletRepo}
+//func NewPortletSvc(svc *Service) *PortletService {
+//	return &PortletService{repo: svc.portletRepo}
+//}
+
+func NewPortletSvc() *PortletService {
+	portletRepo := portlet.New(model.GDB)
+	return &PortletService{
+		repo: portletRepo,
+	}
 }
 
-func (ps *portletService) ListPortlet(ctx context.Context) ([]*model.Portlet, error) {
+func (ps *PortletService) ListPortlet(ctx context.Context) ([]*model.Portlet, error) {
 	return ps.repo.GetPortlets(ctx)
 }
 
-func (ps *portletService) GetPortlet(ctx context.Context, id string) (*model.Portlet, error) {
+func (ps *PortletService) GetPortlet(ctx context.Context, id string) (*model.Portlet, error) {
 	return ps.repo.GetPortlet(ctx, id)
 }
 
-func (ps *portletService) AddPortlet(ctx context.Context, portlet *model.Portlet) (string, error) {
+func (ps *PortletService) AddPortlet(ctx context.Context, portlet *model.Portlet) (string, error) {
 	portletId := portlet.PortletId
 	if portletId == "" {
 		return "", ecode.ErrInvalidPortletId
@@ -48,7 +55,7 @@ func (ps *portletService) AddPortlet(ctx context.Context, portlet *model.Portlet
 	return ps.repo.CreatePortlet(ctx, portlet)
 }
 
-func (ps *portletService) UpdatePortlet(ctx context.Context, portlet *model.Portlet) error {
+func (ps *PortletService) UpdatePortlet(ctx context.Context, portlet *model.Portlet) error {
 	id := portlet.ID
 	if id == "" {
 		return ecode.ErrPortletParams
@@ -59,7 +66,7 @@ func (ps *portletService) UpdatePortlet(ctx context.Context, portlet *model.Port
 	return ps.repo.UpdatePortlet(ctx, portlet)
 }
 
-func (ps *portletService) DeletePortlet(ctx context.Context, id string) error {
+func (ps *PortletService) DeletePortlet(ctx context.Context, id string) error {
 	isExist, _ := ps.repo.PortletIsExist(ctx, &model.Portlet{ID: id})
 	if !isExist {
 		return ecode.ErrPortletNotFound

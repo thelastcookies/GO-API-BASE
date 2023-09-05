@@ -16,7 +16,7 @@ func Add(c *gin.Context) {
 		response.Error(c, errno.ErrInvalidParam)
 		return
 	}
-	id, err := service.Svc.PortletS().AddPortlet(c.Request.Context(), p)
+	id, err := service.Svc.PortletSvc.AddPortlet(c.Request.Context(), p)
 	if err != nil {
 		if errors.Is(err, ecode.ErrInvalidPortletId) {
 			response.Error(c, ecode.ErrInvalidPortletId)

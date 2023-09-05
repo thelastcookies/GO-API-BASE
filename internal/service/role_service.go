@@ -8,39 +8,45 @@ import (
 	"tlc.platform/web-service/pkg/snowflake"
 )
 
-type RoleService interface {
+type RoleServiceFunc interface {
 	GetPortletsByRoleId(ctx context.Context, roleId string) ([]*model.Portlet, error)
 	AddRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error)
+	UpdateRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error)
+	DeleteRolePortletsByRoleId(ctx context.Context, roleId string) error
 }
 
-type roleService struct {
+type RoleService struct {
 	repo role.Repository
 }
 
-func NewRoleSvc() *roleService {
+func NewRoleSvc() *RoleService {
 	rolePortletRepo := role.New(model.GDB)
-	return &roleService{
+	return &RoleService{
 		repo: rolePortletRepo,
 	}
 }
 
-func (rs *roleService) GetPortletsByRoleId(ctx context.Context, roleId string) ([]*model.Portlet, error) {
+func (rs *RoleService) GetPortletsByRoleId(ctx context.Context, roleId string) ([]*model.Portlet, error) {
 	// 待补充：判断 roleId 是否存在
 	rpList, err := rs.repo.GetRolePortletsByRoleId(ctx, roleId)
 	if err != nil {
 		return nil, err
 	}
-	pList := make([]*model.Portlet, 0)
+	if len(rpList) == 0 {
+		return make([]*model.Portlet, 0), nil
+	}
+	idList := make([]string, 0)
 	for _, rp := range rpList {
-		p, _ := Svc.PortletS().GetPortlet(ctx, rp.PortletId)
-		if p != nil {
-			pList = append(pList, p)
-		}
+		idList = append(idList, rp.PortletId)
+	}
+	pList, err := Svc.PortletSvc.repo.GetPortletsByIds(ctx, &idList)
+	if err != nil {
+		return nil, err
 	}
 	return pList, nil
 }
 
-func (rs *roleService) AddRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error) {
+func (rs *RoleService) AddRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error) {
 	var rpList []*model.RolePortlet
 	for _, pId := range pIdLIst {
 		rp := &model.RolePortlet{
@@ -53,13 +59,13 @@ func (rs *roleService) AddRolePortlets(ctx context.Context, roleId string, pIdLI
 	return rs.repo.CreateRolePortlets(ctx, rpList)
 }
 
-func (rs *roleService) UpdateRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error) {
+func (rs *RoleService) UpdateRolePortlets(ctx context.Context, roleId string, pIdLIst []string) ([]string, error) {
 	if err := rs.repo.DeleteRolePortletsByRoleId(ctx, roleId); err != nil {
 		return []string{}, err
 	}
 	return rs.AddRolePortlets(ctx, roleId, pIdLIst)
 }
 
-func (rs *roleService) DeleteRolePortletsByRoleId(ctx context.Context, roleId string) error {
+func (rs *RoleService) DeleteRolePortletsByRoleId(ctx context.Context, roleId string) error {
 	return rs.repo.DeleteRolePortletsByRoleId(ctx, roleId)
 }

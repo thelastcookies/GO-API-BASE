@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
+	"tlc.platform/web-service/internal/ecode"
 	"tlc.platform/web-service/internal/model"
 )
 
@@ -28,6 +29,9 @@ func (r *repository) GetPortlet(ctx context.Context, id string) (*model.Portlet,
 
 func (r *repository) GetPortletsByIds(ctx context.Context, ids *[]string) ([]*model.Portlet, error) {
 	pList := make([]*model.Portlet, 0)
+	if len(*ids) == 0 {
+		return nil, ecode.ErrPortletQueryConditions
+	}
 	if err := r.orm.Where(ids).Find(&pList).Error; err != nil {
 		return nil, errors.Wrap(err, "[repo.portlet_base] db query err")
 	}

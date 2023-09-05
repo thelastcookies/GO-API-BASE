@@ -1,30 +1,28 @@
 package service
 
-import (
-	"tlc.platform/web-service/internal/model"
-	"tlc.platform/web-service/internal/repo/portlet"
-)
+var Svc *Service
 
-var Svc *service
+//type Service interface {
+//	PortletS() *PortletService
+//}
 
-type Service interface {
-	PortletS() *portletService
-	//RolePortletS() *roleService
+type Service struct {
+	//portletRepo    portlet.Repository
+	PortletSvc     *PortletService
+	RolePortletSvc *RoleService
+	UserPortletSvc *UserService
 }
 
-type service struct {
-	portletRepo    portlet.Repository
-	RolePortletSvc *roleService
-}
-
-func New() *service {
-	portletRepo := portlet.New(model.GDB)
-	return &service{
-		portletRepo:    portletRepo,
+func New() *Service {
+	//portletRepo := portlet.New(model.GDB)
+	return &Service{
+		//portletRepo:    portletRepo,
+		PortletSvc:     NewPortletSvc(),
 		RolePortletSvc: NewRoleSvc(),
+		UserPortletSvc: NewUserSvc(),
 	}
 }
 
-func (s *service) PortletS() *portletService {
-	return NewPortletSvc(s)
-}
+//func (s *Service) PortletS() *PortletService {
+//	return NewPortletSvc(s)
+//}
