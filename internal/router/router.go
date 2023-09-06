@@ -36,6 +36,7 @@ func NewGinRouter() error {
 	{
 		// portlet 基本接口
 		v1.GET("/portlets", portlet.List)
+		v1.GET("/portlets/tree", portlet.Tree)
 		v1.GET("/portlet/:id", portlet.Get)
 		v1.POST("/portlet", portlet.Add)
 		v1.PUT("/portlet", portlet.Update)

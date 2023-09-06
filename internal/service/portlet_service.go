@@ -7,13 +7,13 @@ import (
 	"tlc.platform/web-service/internal/model"
 	"tlc.platform/web-service/internal/repo/portlet"
 	"tlc.platform/web-service/pkg/snowflake"
+	"tlc.platform/web-service/pkg/utils"
 )
 
 type PortletServiceFunc interface {
 	ListPortlet(ctx context.Context) ([]*model.Portlet, error)
+	TreePortlet(ctx context.Context) ([]*model.PortletTreeNode, error)
 	GetPortlet(ctx context.Context, id string) (*model.Portlet, error)
-	GetPortletsByUserId(ctx context.Context, userId string) ([]*model.Portlet, error)
-	GetPortletsByRoleId(ctx context.Context, roleId string) ([]*model.Portlet, error)
 
 	AddPortlet(ctx context.Context, portlet *model.Portlet) (string, error)
 	UpdatePortlet(ctx context.Context, portlet *model.Portlet) error
@@ -37,6 +37,20 @@ func NewPortletSvc() *PortletService {
 
 func (ps *PortletService) ListPortlet(ctx context.Context) ([]*model.Portlet, error) {
 	return ps.repo.GetPortlets(ctx)
+}
+
+func (ps *PortletService) TreePortlet(ctx context.Context) ([]*model.PortletTreeNode, error) {
+	portlets, err := ps.repo.GetPortlets(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var rawTreeNode []*model.PortletTreeNode
+	for _, p := range portlets {
+		node := &model.PortletTreeNode{Portlet: *p}
+		rawTreeNode = append(rawTreeNode, node)
+	}
+	portletTree := utils.ListToTree(rawTreeNode, "")
+	return portletTree, nil
 }
 
 func (ps *PortletService) GetPortlet(ctx context.Context, id string) (*model.Portlet, error) {

@@ -3,8 +3,8 @@ package response
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"os"
 	"tlc.platform/web-service/pkg/errno"
+	"tlc.platform/web-service/pkg/utils"
 )
 
 const (
@@ -136,13 +136,5 @@ type healthCheckResponse struct {
 
 // HealthCheck will return OK if the connection is healthy.
 func HealthCheck(c *gin.Context) {
-	c.JSON(http.StatusOK, healthCheckResponse{Status: "UP", Hostname: GetHostname()})
-}
-
-func GetHostname() string {
-	name, err := os.Hostname()
-	if err != nil {
-		name = "unknown"
-	}
-	return name
+	c.JSON(http.StatusOK, healthCheckResponse{Status: "UP", Hostname: utils.GetHostname()})
 }
